@@ -7,11 +7,11 @@ export class MBasket {
         this.basketProductList = []; 
     };
 
-    get getBasketProductList(): IProduct[] {
+    getBasketProductList(): IProduct[] {
         return this.basketProductList;
     }
 
-    set addProduct(product: IProduct) {
+    addProduct(product: IProduct) {
         this.basketProductList.push(product);
     }
 
@@ -24,7 +24,7 @@ export class MBasket {
         this.basketProductList = [];
     }
 
-    get getBasketTotal(): number {
+    getBasketTotal(): number {
         return this.basketProductList.reduce((total, product) => {
             if (product.price !== null) {
                 return total + product.price;
@@ -33,7 +33,7 @@ export class MBasket {
         }, 0);
     }
 
-    get getBasketCounter(): number {
+    getBasketCounter(): number {
         return this.basketProductList.length;
     }
 

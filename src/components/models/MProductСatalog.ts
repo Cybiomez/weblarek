@@ -4,16 +4,16 @@ export class MProductСatalog {
     protected productList: IProduct[];
     protected targetProduct: IProduct | undefined;
 
-    constructor(productList: IProduct[]) {
-        this.productList = productList;
+    constructor() {
+        this.productList = [];
         this.targetProduct = undefined;
     };
 
-    set setProductList(productList: IProduct[]) {
+    setProductList(productList: IProduct[]) {
         this.productList = productList;
     }
 
-    get getProductList(): IProduct[] {
+    getProductList(): IProduct[] {
         return this.productList;
     }
 
@@ -21,11 +21,11 @@ export class MProductСatalog {
         return this.productList.find(product => product.id === id);
     }
 
-    set setTargetProduct(product: IProduct) {
+    setTargetProduct(product: IProduct) {
         this.targetProduct = product;
     }
 
-    get getTargetProduct(): IProduct {
+    getTargetProduct(): IProduct {
         if (!this.targetProduct) {
             throw new Error("Продукт не выбран");
         }

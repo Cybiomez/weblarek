@@ -13,7 +13,7 @@ export class MBuyer {
         this.phone = "";
     }
  
-    set setBuyerData(buyerData: Partial<IBuyer>) {
+    setBuyerData(buyerData: Partial<IBuyer>) {
         if (buyerData.payment !== undefined) {
             this.payment = buyerData.payment;
         }
@@ -28,7 +28,7 @@ export class MBuyer {
         }
     }   
     
-    get getBuyerData(): IBuyer {
+    getBuyerData(): IBuyer {
         return {
             payment: this.payment,
             address: this.address,
@@ -44,19 +44,25 @@ export class MBuyer {
         this.phone = "";
     }
 
-    isValid(): string | true {
+    isValid(): { [key in keyof IBuyer]?: string } {
+        const errors: { [key in keyof IBuyer]?: string } = {};
+
         if (this.payment !== "card" && this.payment !== "cash") {
-            return "Необходимо выбрать вид оплаты";
+            errors.payment = "Необходимо выбрать вид оплаты";
         }
+
         if (!this.address || this.address.trim() === "") {
-            return "Необходимо указать адрес";
+            errors.address = "Необходимо указать адрес";
         }
+
         if (!this.email || this.email.trim() === "") {
-            return "Необходимо указать email";
+            errors.email = "Необходимо указать email";
         }
-        if (!this.phone || this.phone.trim() === "") {
-            return "Необходимо указать номер телефона";
+
+        if (!this.phone || this.address.trim() === "") {
+            errors.phone = "Необходимо указать номер телефона";
         }
-        return true;
+
+        return errors;
     }
 }
