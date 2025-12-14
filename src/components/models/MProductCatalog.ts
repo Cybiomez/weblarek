@@ -1,16 +1,20 @@
 import { IProduct } from "../../types";
+import { EventEmitter } from "../base/Events";
 
-export class MProductСatalog {
+export class MProductCatalog {
     protected productList: IProduct[];
     protected targetProduct: IProduct | undefined;
+    protected events: EventEmitter;
 
-    constructor() {
+    constructor(events: EventEmitter) {
         this.productList = [];
         this.targetProduct = undefined;
+        this.events = events;
     };
 
     setProductList(productList: IProduct[]) {
         this.productList = productList;
+        this.events.emit('catalog:changed', this.productList);
     }
 
     getProductList(): IProduct[] {
@@ -23,12 +27,10 @@ export class MProductСatalog {
 
     setTargetProduct(product: IProduct) {
         this.targetProduct = product;
+        this.events.emit('product:selected', product);
     }
 
-    getTargetProduct(): IProduct {
-        if (!this.targetProduct) {
-            throw new Error("Продукт не выбран");
-        }
+    getTargetProduct(): IProduct | undefined {
         return this.targetProduct;
     }
 }
