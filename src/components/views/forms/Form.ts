@@ -32,5 +32,4 @@ export abstract class Form<T> extends Component<T> {
         }
     }
 
-    abstract getValue(): Record<string, string>;
 }

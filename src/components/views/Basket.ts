@@ -33,14 +33,14 @@ export class Basket extends Component<IBasketData> {
         if (items.length > 0) {
             // Добавляем товары
             items.forEach(item => this._list.appendChild(item));
-            this.setButtonEnabled(true);
+            this.selected = true;
         } else {
             // Создаем элемент "Корзина пуста"
             const emptyMessage = document.createElement('li');
             emptyMessage.textContent = 'Корзина пуста';
             emptyMessage.classList.add('basket__empty');
             this._list.appendChild(emptyMessage);
-            this.setButtonEnabled(false);
+            this.selected = false;
         }
     }
 
@@ -51,12 +51,9 @@ export class Basket extends Component<IBasketData> {
     }
 
     set selected(value: boolean) {
-        this.setButtonEnabled(value);
-    }
-
-    private setButtonEnabled(enabled: boolean) {
         if (this._button) {
-            this._button.disabled = !enabled;
+            this._button.disabled = !value;
         }
     }
+
 }

@@ -22,7 +22,6 @@ export class OrderForm extends Form<IOrderFormData> {
             button.addEventListener('click', () => {
                 const payment = button.getAttribute('name');
                 if (payment) {
-                    this.payment = payment;
                     events.emit('order.payment:change', { payment });
                 }
             });
@@ -38,17 +37,21 @@ export class OrderForm extends Form<IOrderFormData> {
         // Обработчик отправки формы
         this.container.addEventListener('submit', (event) => {
             event.preventDefault();
-            events.emit('order:submit', this.getValue());
+            
+            const activePaymentButton = Array.from(this._paymentButtons).find(btn => 
+                btn.classList.contains('button_alt-active')
+            );
+            
+            events.emit('order:submit', {
+                payment: activePaymentButton?.getAttribute('name') || '',
+                address: this._addressInput?.value || ''
+            });
         });
     }
 
     set payment(value: string) {
         this._paymentButtons.forEach(button => {
-            if (button.getAttribute('name') === value) {
-                button.classList.add('button_alt-active');
-            } else {
-                button.classList.remove('button_alt-active');
-            }
+            button.classList.toggle('button_alt-active', button.getAttribute('name') === value);
         });
     }
 
@@ -58,14 +61,4 @@ export class OrderForm extends Form<IOrderFormData> {
         }
     }
 
-    getValue() {
-        const paymentButton = Array.from(this._paymentButtons).find(btn => 
-            btn.classList.contains('button_alt-active')
-        );
-        
-        return {
-            payment: paymentButton?.getAttribute('name') || '',
-            address: this._addressInput?.value || ''
-        };
-    }
 }

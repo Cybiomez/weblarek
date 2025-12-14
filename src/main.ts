@@ -181,6 +181,7 @@ events.on('basket:order', () => {
 events.on('order.payment:change', (data: { payment: string }) => {
     console.log('View: изменение способа оплаты', data.payment);
     buyerModel.setBuyerData({ payment: data.payment as 'card' | 'cash' });
+    orderForm.payment = data.payment; 
     orderForm.errors = buyerModel.validateOrder();
     orderForm.render({ 
         valid: isOrderValid()
@@ -208,9 +209,8 @@ events.on('order:submit', () => {
     contactsForm.errors = buyerModel.validateContacts();
 });
 
-events.on('contacts:change', () => {
-    console.log('View: изменение контактов');
-    const data = contactsForm.getValue();
+events.on('contacts:change', (data) => {
+    console.log('View: изменение контактов', data);
     buyerModel.setBuyerData(data);
     contactsForm.errors = buyerModel.validateContacts();
     contactsForm.render({ 

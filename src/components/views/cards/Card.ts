@@ -1,5 +1,6 @@
 import { Component } from '../../base/Component';
 import { CDN_URL, categoryMap } from '../../../utils/constants';
+import { ensureElement } from '../../../utils/utils';
 
 export interface ICardData {
     id: string;
@@ -23,8 +24,8 @@ export abstract class Card<T extends ICardData> extends Component<T> {
     constructor(container: HTMLElement) {
         super(container);
         
-        this._title = this.container.querySelector('.card__title') as HTMLElement;
-        this._price = this.container.querySelector('.card__price') as HTMLElement;
+        this._title = ensureElement<HTMLElement>('.card__title', this.container);
+        this._price = ensureElement<HTMLElement>('.card__price', this.container);
         
         this._category = this.container.querySelector('.card__category') as HTMLElement;
         this._image = this.container.querySelector('.card__image') as HTMLImageElement;
@@ -33,9 +34,7 @@ export abstract class Card<T extends ICardData> extends Component<T> {
     }
 
     set title(value: string) {
-        if (this._title) {
-            this._title.textContent = value;
-        }
+        this._title.textContent = value;
     }
 
     set price(value: number | null) {

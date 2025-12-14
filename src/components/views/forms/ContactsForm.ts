@@ -22,15 +22,21 @@ export class ContactsForm extends Form<IContactsFormData> {
         [this._emailInput, this._phoneInput].forEach(input => {
             if (input) {
                 input.addEventListener('input', () => {
-                    events.emit('contacts:change', this.getValue());
+                    events.emit('contacts:change', {
+                        email: this._emailInput?.value || '',
+                        phone: this._phoneInput?.value || ''
+                    });
                 });
             }
         });
-        
+
         // Обработчик отправки формы
         this.container.addEventListener('submit', (event) => {
             event.preventDefault();
-            events.emit('contacts:submit', this.getValue());
+            events.emit('contacts:submit', {
+                email: this._emailInput?.value || '',
+                phone: this._phoneInput?.value || ''
+            });
         });
     }
 
@@ -46,10 +52,4 @@ export class ContactsForm extends Form<IContactsFormData> {
         }
     }
 
-    getValue() {
-        return {
-            email: this._emailInput?.value || '',
-            phone: this._phoneInput?.value || ''
-        };
-    }
 }
